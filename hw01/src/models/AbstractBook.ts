@@ -1,3 +1,11 @@
 export abstract class AbstractBook {
-  // TODO: Implement the AbstractBook class
+  name: string;
+  year: number;
+  author: string; 
+  
+  constructor(name: string, year: number, author: string) {
+    this.name = name;
+    this.year = year;
+    this.author = author;
+  }
 }
