@@ -1,21 +1,16 @@
+import { INotificationChannel, INotificationService } from "../core/interfaces";
 import { User } from "../models/User";
-import { Logger } from "./Logger";
 
-export class NotificationService {
-  private logger = new Logger();
+export class NotificationService implements INotificationService {
+  private channels: INotificationChannel[] = [];
 
-  sendEmail(user: User, message: string): void {
-    this.logger.log(`Sending EMAIL to ${user.email}`);
-    console.log(`Email sent to ${user.email}: ${message}`);
+  addChannel(channel: INotificationChannel): void {
+    this.channels.push(channel);
   }
 
-  sendSMS(user: User, message: string): void {
-    this.logger.log(`Sending SMS to ${user.phone}`);
-    console.log(`SMS sent to ${user.phone}: ${message}`);
-  }
-
-  sendPush(user: User, message: string): void {
-    this.logger.log(`Sending PUSH to ${user.deviceToken}`);
-    console.log(`Push sent to ${user.deviceToken}: ${message}`);
+  sendNotification(user: User, message: string): void {
+    for (const channel of this.channels) {
+      channel.send(user, message);
+    }
   }
 }
