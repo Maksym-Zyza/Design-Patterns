@@ -2,8 +2,6 @@ import { Author } from "./Author";
 import { AbstractBook } from "./AbstractBook";
 import { Copy } from "./Copy";
 import { Reader } from "./Reader";
-import { Book } from "./Book";
-import { EBook } from "./EBook";
 
 //Library надає методи для:
 //додавання книг, авторів, копій, читачів
@@ -11,39 +9,55 @@ import { EBook } from "./EBook";
 //пошуку книг за автором
 
 export class Library {
-    books: AbstractBook[];
-    authors: Author[];
-    copies: Copy[];
-    readers: Reader[];
+  private _books: AbstractBook[];
+  private _authors: Author[];
+  private _copies: Copy[];
+  private _readers: Reader[];
 
-    constructor() {
-        this.books = [];
-        this.authors = [];
-        this.copies = [];
-        this.readers = [];
-    }
+  constructor() {
+    this._books = [];
+    this._authors = [];
+    this._copies = [];
+    this._readers = [];
+  }
 
-    addBook(book: AbstractBook) {
-        this.books.push(book);
-    }
+  get books(): AbstractBook[] {
+    return this._books;
+  }
 
-    addAuthor(author: Author) {
-        this.authors.push(author);
-    }
+  get authors(): Author[] {
+    return this._authors;
+  }
 
-    addCopy(copy: Copy) {
-        this.copies.push(copy);
-    }
+  get copies(): Copy[] {
+    return this._copies;
+  }
 
-    addReader(reader: Reader) {
-        this.readers.push(reader);
-    }
+  get readers(): Reader[] {
+    return this._readers;
+  }
 
-    getAvailableCopies(book: AbstractBook) {
-        return this.copies.filter(copy => copy.book === book && copy.isAvailable);
-    }
+  addBook(book: AbstractBook): void {
+    this._books.push(book);
+  }
 
-    findBooksByAuthor(author: Author) {
-        return this.books.filter(book => book.author === author.name);
-    }
+  addAuthor(author: Author): void {
+    this._authors.push(author);
+  }
+
+  addCopy(copy: Copy): void {
+    this._copies.push(copy);
+  }
+
+  addReader(reader: Reader): void {
+    this._readers.push(reader);
+  }
+
+  getAvailableCopies(book: AbstractBook): Copy[] {
+    return this._copies.filter(copy => copy.book === book && copy.isCopyAvailable());
+  }
+
+  findBooksByAuthor(author: Author): AbstractBook[] {
+    return this._books.filter(book => book.author === author);
+  }
 }

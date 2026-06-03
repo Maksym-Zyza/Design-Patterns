@@ -2,18 +2,13 @@ import { AbstractBook } from "./AbstractBook";
 import { Author } from "./Author";
 
 //Book реалізує AbstractBook, містить назву, рік, автора.
-export class Book implements AbstractBook {
-  name: string;
-  year: number;
-  author: string; 
-  
+export class Book extends AbstractBook {
   constructor(name: string, year: number, author: Author) {
-    this.name = name;
-    this.year = year;
-    this.author = author.name;
+    super(name, year, author);
+    author.addBook(this);
   }
 
   getDescription(): string {
-    return `Book: ${this.name}, Year: ${this.year}, Author: ${this.author}`;
+    return `Physical book "${this.name}" by ${this.author.name} (${this.year})`;
   }
 }
