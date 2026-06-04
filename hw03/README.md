@@ -88,3 +88,19 @@ npx ts-node src/main.ts apple
 1. Створює відповідну фабрику провайдера
 2. Ініціалізує контекст платежів
 3. Виконує повний цикл операцій (authorize, capture, refund)
+
+### Виведення:
+
+```bash
+[Stripe] Authorizing $100
+[Stripe] Capturing transaction 4g7rfa
+[Stripe] Refunding transaction 4g7rfa
+```
+
+або
+
+```bash
+[PayPal] Authorizing $100
+[PayPal] Capturing transaction epv2y
+[PayPal] Refunding transaction epv2y
+```
