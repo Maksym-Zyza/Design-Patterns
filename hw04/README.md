@@ -20,7 +20,7 @@ src/
 ```
 
 
-### Реалізація патерну Одинак
+### 1. Реалізація патерну Одинак
 
 Надається реалізація класу AppConfigService, який зберігає глобальні налаштування для всього застосунку. У поточній реалізації немає обмеження на кількість створених екземплярів, тому кожен модуль створює новий об’єкт і втрачає єдність конфігурації.
 
@@ -28,15 +28,18 @@ src/
 
 Початковий код src\\singleton\\AppConfigService.ts:
 
+```typescript
 export class AppConfigService {
   constructor(
     public readonly companyName: string,
     public readonly footer: string
   ) {}
 }
+```
 
 Файл src\\singleton\\main.ts
 
+```typescript
 import { AppConfigService } from "./core/AppConfigService";
 
 const config1 = new AppConfigService("Acme Inc.", "Confidential");
@@ -44,8 +47,7 @@ const config2 = new AppConfigService("Another Corp", "Top Secret");
 
 console.log(config1.companyName); // Acme Inc.
 console.log(config2.companyName); // Another Corp
-
-
+```
 
 #### Очікуваний результат
 
@@ -66,7 +68,7 @@ console.log(config1 === config2); // true
 Файл main.ts, який демонструє правильну поведінку;
 
 
-### Реалізація патерну Будівельник
+### 2. Реалізація патерну Будівельник
 
 У компанії генеруються текстові документи, які складаються з кількох частин: заголовка, основного тексту, підпису. На цей момент документ формується вручну, через конкатенацію рядків у довільному порядку, що призводить до дублювання коду та помилок структури.
 
@@ -119,7 +121,7 @@ Quarterly performance increased by 12%.
 
 
 
-### Реалізація патерну Прототип 
+### 3. Реалізація патерну Прототип 
 
 У внутрішній системі управління користувачами зберігаються типові профілі доступу — наприклад, "finance-chief" або "engineering-lead". Кожен профіль включає ім’я користувача, відділ і набір прав доступу. Часто виникає потреба створити нового користувача на основі існуючого профілю, з незначними змінами.
 
