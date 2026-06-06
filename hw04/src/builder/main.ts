@@ -1,7 +1,10 @@
-const header = "ACME Corporation — Report";
-const body = "Quarterly performance increased by 12%.";
-const footer = "--- Confidential ---";
+import { DocumentBuilder } from "./DocumentBuilder";
 
-const myDocument = header + "\\n\\n" + body + "\\n\\n" + footer;
+const builder = new DocumentBuilder();
+const output = builder
+  .addHeader("ACME Corporation — Report")
+  .addBody("Quarterly performance increased by 12%.")
+  .addFooter("--- Confidential ---")
+  .build();
 
-console.log(myDocument);
+console.log(output);
