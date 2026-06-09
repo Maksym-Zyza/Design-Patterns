@@ -31,7 +31,7 @@ export class DirectoryAnalyzer {
             const stats = fs.statSync(fullPath);
             report.totalSize += stats.size;
           } catch (e) {
-            // ignore stat errors
+            console.error(`Error getting stats for ${fullPath}: ${e}`);
           }
           
           let fileExt = path.extname(entry.name);
