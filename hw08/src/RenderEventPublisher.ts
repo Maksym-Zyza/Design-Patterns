@@ -2,14 +2,16 @@ import { RenderEventSubscriber } from "./interfaces/RenderEventSubscriber";
 import { RenderContext } from "./interfaces/RenderContext";
 
 export class RenderEventPublisher {
-  private static subscribers = new Set<RenderEventSubscriber>();
+  private static subscribers: RenderEventSubscriber[] = [];
 
   static subscribe(subscriber: RenderEventSubscriber): void {
-    this.subscribers.add(subscriber);
+    if (!this.subscribers.includes(subscriber)) {
+      this.subscribers.push(subscriber);
+    }
   }
 
   static unsubscribe(subscriber: RenderEventSubscriber): void {
-    this.subscribers.delete(subscriber);
+    this.subscribers = this.subscribers.filter(sub => sub !== subscriber);
   }
 
   static notify(context: RenderContext): void {
