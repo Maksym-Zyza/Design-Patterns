@@ -66,6 +66,6 @@ const content = createDocument(format);
 const renderer = RendererFactory.create(format);
 const result = renderer.wrapDocument(content);
 
-// TODO: Implement the main logic
+RenderEventPublisher.notify({ type: 'Finished', content: '' });
 
 output ? writeFileSync(output, result) : console.log(result);
