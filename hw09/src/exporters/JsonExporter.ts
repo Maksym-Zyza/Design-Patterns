@@ -4,10 +4,15 @@ import { dirname } from "path";
 
 export class JsonExporter extends DataExporter {
   protected render(): string {
-    // TODO
+    return JSON.stringify(this.data, null, 2);
   }
 
   protected save(): void {
-    // TODO
+    const path = "./dist/users.json";
+    const dir = dirname(path);
+    if (!existsSync(dir)) {
+      mkdirSync(dir, { recursive: true });
+    }
+    writeFileSync(path, this.result);
   }
 }

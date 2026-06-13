@@ -6,15 +6,27 @@ export abstract class DataExporter {
   protected result: string = "";
 
   public async export() {
-    // TODO: Implement export logic
+    await this.load();
+    this.transform();
+    this.beforeRender();
+    this.result = this.render();
+    this.afterRender();
+    this.save();
   }
 
   protected async load() {
-    // TODO: Implement load logic
+    const response = await fetch("https://jsonplaceholder.typicode.com/users");
+    const json = await response.json() as any[];
+    this.data = json;
   }
 
   protected transform() {
-    // TODO: Implement transform logic
+    this.data = this.data.map(user => ({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone
+    })).sort((a, b) => a.name.localeCompare(b.name));
   }
 
   protected beforeRender() {
