@@ -10,10 +10,15 @@ export class RemoveTaskCommand extends AbstractCommand {
   }
 
   execute(): void {
-    // TODO
+    const task = this.taskList.removeTask(this.taskId);
+    if (task) {
+      this.removedTask = task;
+    }
   }
 
   undo(): void {
-    // TODO
+    if (this.removedTask) {
+      this.taskList.addTask(this.removedTask);
+    }
   }
 }

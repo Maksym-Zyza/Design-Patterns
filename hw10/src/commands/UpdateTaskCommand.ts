@@ -14,10 +14,16 @@ export class UpdateTaskCommand extends AbstractCommand {
   }
 
   execute(): void {
-    // TODO
+    const task = this.taskList.getAllTasks().find((t) => t.id === this.taskId);
+    if (task && !this.oldTask) {
+      this.oldTask = { ...task };
+    }
+    this.taskList.updateTask(this.taskId, this.updates);
   }
 
   undo(): void {
-    // TODO
+    if (this.oldTask) {
+      this.taskList.updateTask(this.taskId, this.oldTask);
+    }
   }
 }
