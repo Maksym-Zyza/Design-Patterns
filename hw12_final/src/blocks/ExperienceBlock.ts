@@ -10,7 +10,7 @@ import { ProjectBlock } from "./ProjectBlock";
 import { HighlightDecorator } from "../decorators/HighlightDecorator";
 
 export class ExperienceBlock implements IBlock {
-  constructor(private d: Experience) {}
+  constructor(private d: Experience[]) {}
 
   /**
    * Рендеринг блоку досвіду роботи
@@ -24,9 +24,31 @@ export class ExperienceBlock implements IBlock {
     container.className = "section experience";
     container.innerHTML = "<h2>Experience</h2>";
 
-    // TODO: Для кожного досвіду створити div.experience-item з innerHTML (позиція, компанія, період)
-    // TODO: Додати проєкти (ProjectBlock, HighlightDecorator) до цього div
-    // TODO: Додати всі experience-item до секції
+    this.d.forEach(exp => {
+      const expItem = document.createElement("div");
+      expItem.className = "experience-item";
+      expItem.innerHTML = `
+        <h3>${exp.position}</h3>
+        <p>${exp.company} | ${exp.start} - ${exp.end}</p>
+      `;
+
+      if (exp.projects && exp.projects.length > 0) {
+        const projectsContainer = document.createElement("div");
+        projectsContainer.className = "projects-list";
+        
+        exp.projects.forEach(proj => {
+          let projectBlock: IBlock = new ProjectBlock(proj);
+          if (proj.isRecent) {
+            projectBlock = new HighlightDecorator(projectBlock);
+          }
+          projectsContainer.appendChild(projectBlock.render());
+        });
+        
+        expItem.appendChild(projectsContainer);
+      }
+      
+      container.appendChild(expItem);
+    });
 
     return container;
   }

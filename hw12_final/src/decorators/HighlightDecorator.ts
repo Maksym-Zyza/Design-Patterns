@@ -23,8 +23,8 @@ export class HighlightDecorator implements IBlock {
    * додає клас 'highlight' до елемента і повертає його
    */
   render(): HTMLElement {
-    // TODO: Викликати render() на обгорнутому блоці
-    // TODO: Додати клас 'highlight' до елемента
-    // TODO: Повернути модифікований елемент
+    const el = this.wrapped.render();
+    el.classList.add("highlight");
+    return el;
   }
 }

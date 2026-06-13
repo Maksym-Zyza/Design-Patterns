@@ -15,7 +15,16 @@ export class ResumeImporter extends AbstractImporter<ResumeModel> {
    * Перевірте наявність необхідних полів (header, summary, experience, education, skills)
    */
   protected validate(): void {
-    // TODO: Додайте перевірки на наявність обов'язкових полів та їх структуру. Неприпустимий формат JSON
+    const data = this.raw as any;
+    if (!data || typeof data !== "object") {
+      throw new Error("Invalid JSON");
+    }
+    const requiredFields = ["header", "summary", "experience", "education", "skills"];
+    for (const field of requiredFields) {
+      if (!(field in data)) {
+        throw new Error(`Missing required field: ${field}`);
+      }
+    }
   }
 
   /**
@@ -33,9 +42,22 @@ export class ResumeImporter extends AbstractImporter<ResumeModel> {
    */
   protected render(model: ResumeModel): void {
     const root = document.getElementById("resume-content")!;
-    // TODO: Створіть фабрику і використайте її для створення і рендерингу блоків
-    const factory = new BlockFactory();
+    if (!root) {
+      console.error("Resume content root element not found");
+      return;
+    }
+    
+    // Очистити попередній контент
+    root.innerHTML = "";
 
-    // TODO: Створіть і додайте у DOM кожен блок резюме
+    const factory = new BlockFactory();
+    const blockTypes: ("header" | "summary" | "experience" | "education" | "skills")[] = [
+      "header", "summary", "experience", "education", "skills"
+    ];
+
+    for (const type of blockTypes) {
+      const block = factory.createBlock(type, model);
+      root.appendChild(block.render());
+    }
   }
 }

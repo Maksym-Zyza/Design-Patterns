@@ -5,12 +5,20 @@ import { ResumeImporter } from "../importer/ResumeImporter";
  */
 export class ResumePage {
   async init(jsonPath: string): Promise<void> {
-    // TODO: Завантажити дані через fetchData
-    // TODO: Імпортувати дані через ResumeImporter
+    try {
+      const data = await this.fetchData(jsonPath);
+      const importer = new ResumeImporter(data);
+      importer.import();
+    } catch (error) {
+      console.error("Failed to initialize resume:", error);
+    }
   }
 
   private async fetchData(path: string): Promise<unknown> {
-    // TODO: Завантажити JSON з вказаного шляху
-    return {};
+    const response = await fetch(path);
+    if (!response.ok) {
+      throw new Error(`Failed to load data from ${path}`);
+    }
+    return await response.json();
   }
 }

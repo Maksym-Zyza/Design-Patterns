@@ -43,25 +43,17 @@ export class BlockFactory {
     // TODO: Реалізуйте логіку створення відповідного об'єкта IBlock
     switch (type) {
       case "header":
-        // TODO: Поверніть новий HeaderBlock з відповідними даними
-        break;
+        return new HeaderBlock(m.header);
       case "summary":
-        // TODO: Поверніть новий SummaryBlock з відповідними даними
-        break;
+        return new SummaryBlock(m.summary);
       case "experience":
-        // TODO: Поверніть новий ExperienceBlock з відповідними даними
-        break;
+        return new ExperienceBlock(m.experience);
       case "education":
-        // TODO: Поверніть новий EducationBlock з відповідними даними
-        break;
+        return new EducationBlock(m.education);
       case "skills":
-        // TODO: Поверніть новий SkillsBlock з відповідними даними
-        break;
+        return new SkillsBlock(m.skills);
       default:
         throw new Error(`Unknown block type: ${type}`);
     }
-
-    // Тимчасове рішення для компілятора видалити після реалізації
-    throw new Error("Method not implemented");
   }
 }

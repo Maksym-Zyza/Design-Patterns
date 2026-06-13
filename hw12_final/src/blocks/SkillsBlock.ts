@@ -20,9 +20,16 @@ export class SkillsBlock implements IBlock {
     sec.className = "section skills";
     sec.innerHTML = "<h2>Skills</h2>";
 
-    // TODO: Створіть список навичок, згрупований за категоріями
-    // Використайте Object.entries(this.d) для ітерації по всіх категоріях
-    // Створіть для кожної категорії елемент списку з назвою категорії та списком навичок
+    const list = document.createElement("ul");
+    list.className = "skills-list";
+
+    for (const [category, skills] of Object.entries(this.d)) {
+      const item = document.createElement("li");
+      item.innerHTML = `<strong>${category}:</strong> ${skills.join(", ")}`;
+      list.appendChild(item);
+    }
+    
+    sec.appendChild(list);
 
     return sec;
   }
