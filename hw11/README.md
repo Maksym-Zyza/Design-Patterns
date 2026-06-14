@@ -123,7 +123,7 @@ export type DataRecord =
 
 Для кожного типу запису будується окремий ланцюг обробників. Ланцюг реалізується через абстрактний клас `AbstractHandler`.
 
-````typescript
+```typescript
 // chain/AbstractHandler.ts
 export abstract class AbstractHandler {
   private next: AbstractHandler | null = null;
@@ -159,7 +159,7 @@ export abstract class AbstractHandler {
 
 Шаблон для handler-а може виглядати так:
 
-````typescript
+```typescript
 // chain/handlers/SomeValidator.ts
 import { AbstractHandler } from "../AbstractHandler";
 
@@ -175,7 +175,7 @@ export class SomeValidator extends AbstractHandler {
 
 Наприклад `src\\chain\\handlers\\AmountParser.ts`:
 
-````typescript
+```typescript
 import { AbstractHandler } from "../AbstractHandler";
 import { TransactionRecord } from "../../models/DataRecord";
 
@@ -193,7 +193,7 @@ export class AmountParser extends AbstractHandler {
 
 Для кожного типу обробника будується окремий ланцюг. Пам'ятай, що порядок обробників важливий.
 
-````typescript
+```typescript
 // chain/chains/AccessLogChain.ts
 import { TimestampParser } from "../handlers/TimestampParser";
 import { UserIdValidator } from "../handlers/UserIdValidator";
@@ -211,7 +211,7 @@ export function buildAccessLogChain(): AbstractHandler {
 
 Клас `ProcessingMediator` централізує логіку збереження:
 
-````typescript
+```typescript
 class ProcessingMediator {
 	//...
   onSuccess(record: DataRecord): void {
@@ -230,7 +230,7 @@ class ProcessingMediator {
 
 Пропонується наступний шаблон для writer-а
 
-````typescript
+```typescript
 // mediator/writers/AccessLogWriter.ts
 import * as fs from "fs/promises";
 
@@ -255,7 +255,7 @@ export class AccessLogWriter {
 
 Точка входу `main.ts` у застосунок, де демонструється, як використовувати наш симбіоз патернів.
 
-````typescript
+```typescript
 import { buildAccessLogChain } from "./chain/chains/AccessLogChain";
 import { ProcessingMediator } from "./mediator/ProcessingMediator";
 // ... інші імпорти
@@ -278,10 +278,11 @@ async function main() {
 ### Очікуваний результат
 
 Після запуску застосунку через
-````bash
+
+```bash
 npx ts-node main.ts 
-````
-    
+```
+
 відбудеться обробка всіх об'єктів у вхідному JSON-файлі. Кожен запис буде передано через відповідний ланцюг обробників:
 
 Якщо об'єкт успішно пройшов валідацію і був оброблений — він буде переданий посереднику, який збереже його у фінальному звіті наприклад, у output/access_logs.json, output/transactions.csv.
@@ -290,12 +291,12 @@ npx ts-node main.ts
 
 У консолі буде відображено короткий зведений звіт:
 
-````typescript
+```typescript
 [INFO] Завантажено записів: 125
 [INFO] Успішно оброблено: 93
 [WARN] Відхилено з помилками: 32
 [INFO] Звіт збережено у директорії output/
-````
+```
 
 У директорії output/ будуть створені файли:
 
@@ -307,7 +308,7 @@ npx ts-node main.ts
 Формат виводу залежить від типу:
 
 - `access_logs.json`
-````json
+```json
 [
   {
     "timestamp": "2025-05-02T12:34:56Z",
@@ -315,18 +316,21 @@ npx ts-node main.ts
     "ip": "192.168.0.1"
   }
 ]
-````
+```
+
 - `transactions.csv`
-````csv
+```csv
 timestamp,amount,currency
 2025-05-02T10:15:30Z,1400.50,USD
-````
+```
+
 - `errors.jsonl`
-````jsonl
+```jsonl
 {"timestamp":"2025-05-01T12:15:00Z","level":"warning","message":"Disk usage exceed  ed 90%"}
-````
+```
+
 - `rejected.jsonl`
-````jsonl
+```jsonl
 {"record":{"type":"transaction"},"error":"Missing required field 'amount'"}
 {"record":{"type":"access_log","ip":"0.0.0.0"},"error":"Invalid userId"}
-````
+```
