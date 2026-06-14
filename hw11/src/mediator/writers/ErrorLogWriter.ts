@@ -4,9 +4,12 @@ import * as fs from "fs/promises";
 export class ErrorLogWriter {
   private lines: string[] = [];
   write(record: SystemErrorRecord) {
-    // TODO
+    this.lines.push(JSON.stringify(record));
   }
   async finalize() {
-    // TODO
+    await fs.writeFile(
+      "src/output/errors.jsonl",
+      this.lines.length > 0 ? this.lines.join("\n") + "\n" : ""
+    );
   }
 }
