@@ -16,5 +16,5 @@ export abstract class AbstractHandler {
     return processed;
   }
 
-  protected abstract process(record: DataRecord): DataRecord;
+  protected abstract process(record: any): any;
 }
